@@ -1,13 +1,16 @@
 # agent/executor.py
 
-from llm.llm import call_llm
+from routes.agent_system.llm.llm import call_llm
 
-def execute_step(step):
+def execute_step(step, context=""):
 	prompt = f"""
 You are an AI executor.
 
 Execute this step:
 {step}
+
+Context:
+{context}
 
 Return result:
 """
