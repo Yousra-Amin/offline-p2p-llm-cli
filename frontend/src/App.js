@@ -24,23 +24,28 @@ function App() {
 			"steps": [
 				{
 					"step": "step 1",
-					"result": "result 1"
+					"result": "result 1",
+					"review": "review 1"
 				},
 				{
 					"step": "step 2",
-					"result": "result 2"
+					"result": "result 2",
+					"review": "review 2"
 				},
 				{
 					"step": "step 3",
-					"result": "result 3"
+					"result": "result 3",
+					"review": "review 3"
 				},
 				{
 					"step": "step 4",
-					"result": "result 4"
+					"result": "result 4",
+					"review": "review 4"
 				},
 				{
 					"step": "step 5",
-					"result": "result 5"
+					"result": "result 5",
+					"review": "review 5"
 				},
 			]
 		}
@@ -50,6 +55,7 @@ function App() {
 				...prev,
 				`Step ${i + 1}: ${s.step}`,
 				`Result: ${s.result}`,
+				`Review: ${s.review}`,
 			]);
 		});
 

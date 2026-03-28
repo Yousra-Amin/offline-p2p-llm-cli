@@ -1,10 +1,10 @@
-# llm/llm.py
+# backend/llm/llm.py
 
 import requests
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 
-def call_llm(prompt, model="llama3"):
+def call_llm(prompt, model):
 	response = requests.post(
 		OLLAMA_URL,
 		json={
@@ -15,3 +15,9 @@ def call_llm(prompt, model="llama3"):
 	)
 	
 	return response.json()["response"]
+
+
+# Define roles (VERY IMPORTANT)
+PLANNER_MODEL = "mistral"
+EXECUTOR_MODEL = "phi"
+REVIEWER_MODEL = "phi3:mini"

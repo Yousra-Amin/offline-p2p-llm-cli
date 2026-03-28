@@ -1,24 +1,22 @@
 # agent/planner.py
 
-from routes.agent_system.llm.llm import call_llm
+from routes.agent_system.llm.llm import call_llm, PLANNER_MODEL
 
 def create_plan(task):
 	prompt = f"""
-You are an AI planner.
+You are a planning agent.
 
-Break the following task into clear, numbered steps. Give all steps together and only the steps.
+Break the task into minimal, logical steps.
+Be precise and avoid unnecessary steps.
 
 Task:
 {task}
 
-Steps:
-1.
+Return ONLY numbered steps.
 """
 
-	response = call_llm(prompt)
-
-	steps = parse_steps(response)
-	return steps
+	response = call_llm(prompt, PLANNER_MODEL)
+	return parse_steps(response)
 
 
 def parse_steps(response):
