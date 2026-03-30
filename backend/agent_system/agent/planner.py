@@ -37,7 +37,7 @@ def parse_steps(response):
     print(lines)
     print("\n\n")
 
-    for line in lines[2:]:
+    for line in lines:
         line = line.strip()
 
         if (
