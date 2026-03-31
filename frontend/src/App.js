@@ -1,91 +1,49 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-function App() {
-	const [input, setInput] = useState("");
-	const [logs, setLogs] = useState([]);
+const NODES = [
+    "http://localhost:8000",
+    "http://localhost:8001",
+    "http://localhost:8002",
+    "http://localhost:8003",
+];
 
-	const runTask = async () => {
-		if (!input) return;
+export default function App() {
+    const [task, setTask] = useState("");
+    const [result, setResult] = useState([]);
 
-		setLogs((prev) => [...prev, `> ${input}`]);
+    useEffect(() => {
+        console.log(result)
+    }, [result])
 
-		// const res = await fetch("http://127.0.0.1:8000/run", {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify({ task: input }),
-		// });
+    const sendTask = async () => {
+        for (let node of NODES) {
+            try {
+                const res = await axios.post(`${node}/task`, {
+                    task: task,
+                });
+                setResult(res.data.result);
+                return;
+            } catch (err) {
+                continue; // try next node
+            }
+        }
+    };
 
-		// const data = await res.json();
+    return (
+        <div style={{ padding: 20 }}>
+            <h1>P2P Task System</h1>
 
+            <input
+                value={task}
+                onChange={(e) => setTask(e.target.value)}
+                placeholder="Enter task"
+            />
 
-		const data = { // mock backend
-			"steps": [
-				{
-					"step": "step 1",
-					"result": "result 1",
-					"review": "review 1"
-				},
-				{
-					"step": "step 2",
-					"result": "result 2",
-					"review": "review 2"
-				},
-				{
-					"step": "step 3",
-					"result": "result 3",
-					"review": "review 3"
-				},
-				{
-					"step": "step 4",
-					"result": "result 4",
-					"review": "review 4"
-				},
-				{
-					"step": "step 5",
-					"result": "result 5",
-					"review": "review 5"
-				},
-			]
-		}
+            <button onClick={sendTask}>Send</button>
 
-		data.steps.forEach((s, i) => {
-			setLogs((prev) => [
-				...prev,
-				`Step ${i + 1}: ${s.step}`,
-				`Result: ${s.result}`,
-				`Review: ${s.review}`,
-			]);
-		});
-
-		setInput("");
-	};
-
-	return (
-		<div style={{ color: "black", padding: "20px" }}>
-			<h2>Agentic CLI</h2>
-
-			<div style={{ marginBottom: "20px" }}>
-				{logs.map((log, i) => (
-					<div key={i}>{log}</div>
-				))}
-			</div>
-
-			<input
-				style={{
-					width: "80%",
-					padding: "10px",
-					color: "black",
-					border: "1px solid black",
-				}}
-				value={input}
-				onChange={(e) => setInput(e.target.value)}
-				onKeyDown={(e) => e.key === "Enter" && runTask()}
-				placeholder="Enter task..."
-			/>
-		</div>
-	);
+            <h3>Result:</h3>
+            <p>{result.map(r => r + "\n\n")}</p>
+        </div>
+    );
 }
-
-export default App;
