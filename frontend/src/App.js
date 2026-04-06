@@ -124,6 +124,8 @@ const styles = {
         flex: 1,
         overflowY: "auto",
         padding: "20px",
+        display: "flex",
+        flexDirection: "column",
     },
     message: {
         maxWidth: "70%",
