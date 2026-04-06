@@ -14,5 +14,5 @@ def call_llm(prompt, model):
 
 
 # Define roles (VERY IMPORTANT)
-PLANNER_MODEL = "mistral"
+PLANNER_MODEL = "phi"
 EXECUTOR_MODEL = "phi"

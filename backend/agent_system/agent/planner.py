@@ -33,9 +33,9 @@ def parse_steps(response):
 
     current_step = ""
 
-    print("\n\nprinting lines\n\n")
-    print(lines)
-    print("\n\n")
+    # print("\n\nprinting lines\n\n")
+    # print(lines)
+    # print("\n\n")
 
     for line in lines:
         line = line.strip()

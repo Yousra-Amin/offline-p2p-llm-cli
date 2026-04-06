@@ -36,6 +36,7 @@ async def health():
 async def set_master(payload: dict):
     new_master = payload["master"]
     os.environ["MASTER_URL"] = new_master
+    print(f"Set new master={new_master}")
     return {"result": "successful"}
 
 
@@ -73,10 +74,6 @@ async def handle_as_master(task: str):
 
     results = await distribute_tasks(subtasks)
 
-    # final = " ".join(results)
-    # return {"result": final}
-    print("printing results\n")
-    print(results)
     return {"result": results}
 
 
@@ -120,10 +117,10 @@ async def distribute_tasks(subtasks):
 
     for s in subtasks:
         result = await send(s, context)
-        results.append(result)
+        results.append(result.strip())
         context += f"\n{result}"
 
-    return results
+    return "".join(results)
 
 
 # -------------------------------
@@ -133,6 +130,7 @@ async def distribute_tasks(subtasks):
 async def handle_subtask(payload: dict):
     subtask = payload["subtask"]
     context = payload["context"]
+    print(f"Received subtask={subtask[:10]}")
 
     try:
         result = process_subtask(subtask, context)
